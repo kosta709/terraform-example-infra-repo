@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "cfterraformtest123"
-    key    = "main-service/test-1"
+    key    = "infra/main-service/dev"
     region = "us-west-2"
   }
 }
