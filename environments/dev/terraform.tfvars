@@ -1,9 +1,6 @@
 aws_region = "us-west-2"
 
-common_tags = {
-  terraform = "true"
-  environment = "dev"
-}
+environment = "dev"
 
 vpc_name = "dev-main-service"
 vpc_cidr = "10.100.0.0/16"

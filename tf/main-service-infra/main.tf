@@ -4,6 +4,15 @@ provider "aws" {
   version = "~> 2.0"
 }
 
+locals {
+  # Common tags to be assigned to all resources
+  common_tags = {
+    terraform = "true"
+    service = "main-service"
+    environment = var.environment
+  }
+}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "2.21.0"
@@ -15,6 +24,6 @@ module "vpc" {
   public_subnets  = [for subnet in var.az_subnets: subnet.public_subnet_cidr]
   private_subnets = [for subnet in var.az_subnets: subnet.private_subnet_cidr]
 
-  tags = var.common_tags
+  tags = local.common_tags
 
 }

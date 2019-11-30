@@ -4,10 +4,9 @@ variable aws_region {
   default = "us-east-1"
 }
 
-variable common_tags {
-  description = "A map of tags to add to all resources"
-  type = map(string)
-  default = {}
+variable "environment" {
+  description = "Environment name (production|dev|test|staging)"
+  type = string
 }
 
 variable vpc_name {
