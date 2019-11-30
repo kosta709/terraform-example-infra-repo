@@ -9,8 +9,9 @@ variable "environment" {
   type = string
 }
 
-variable vpc_name {
-  type = string
+variable "service_name" {
+  description = "service name"
+  default = "main-service"
 }
 
 variable vpc_cidr {
@@ -27,3 +28,22 @@ variable az_subnets {
   ))
 }
 
+variable "ami_id" {
+  description = "aws ami id "
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+variable "asg_min_size" {
+  default = 1
+}
+
+variable "asg_desired_capacity" {
+  default = 2
+}
+
+variable "asg_max_size" {
+  default = 10
+}
