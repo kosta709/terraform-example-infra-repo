@@ -28,7 +28,6 @@ So running `terraform apply ` for all the infrastracture after adding one string
 ## Run it
 0. Create or reference VPC
 This step is optional, you can reference existing vpc and subnet
-#### create vpc
 ```
 cd terraform-infra-team-repo-example/configurations/vpc/<env-name>
 terraform init|plan|apply
