@@ -1,6 +1,6 @@
 aws_region = "us-west-2"
 
-environment = "dev"
+environment = "test-1"
 
 vpc_cidr = "10.100.0.0/16"
 az_subnets = [
