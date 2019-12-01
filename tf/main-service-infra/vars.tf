@@ -14,18 +14,23 @@ variable "service_name" {
   default = "main-service"
 }
 
-variable vpc_cidr {
-  type = string
+variable "vpc_tags_selector" {
+  type = map
+} 
+
+variable "public_subnet_names" {
+  type = list(string)
 }
 
-variable az_subnets {
-  type = list(object(
-    {
-      az = string
-      public_subnet_cidr = string
-      private_subnet_cidr = string
-    }
-  ))
+variable "private_subnet_names" {
+  type = list(string)
+}
+
+variable "private_security_group_names" {
+  type = list(string)
+}
+variable "public_security_group_names" {
+  type = list(string)
 }
 
 variable "ami_id" {
