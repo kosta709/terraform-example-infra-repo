@@ -158,9 +158,26 @@ resource "aws_autoscaling_group" "asg" {
       propagate_at_launch  = true
     }
   }
+}
 
+resource "aws_instance" "sshgw" {
+  count = var.sshgw_count
+  ami = var.ami_id
+  instance_type = "t2.micro"
+  key_name = aws_key_pair.key.key_name
+  subnet_id = element(tolist(data.aws_subnet_ids.public_subnets.ids), count.index)
+  vpc_security_group_ids = data.aws_security_groups.public_sg.ids
+  associate_public_ip_address = true
+  tags = merge(
+    {"Name" = format("%s-sshgw", local.name)},
+    local.common_tags
+  )
 }
 
 output "load_balancer_dns_name" {
   value = aws_elb.elb.dns_name
+}
+
+output "sshgw_public_ip" {
+  value = aws_instance.sshgw.*.public_ip 
 }

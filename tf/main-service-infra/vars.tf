@@ -52,3 +52,8 @@ variable "asg_desired_capacity" {
 variable "asg_max_size" {
   default = 10
 }
+
+variable "sshgw_count" {
+  description = "Count of ssh gateway instances"
+  default = 0
+}

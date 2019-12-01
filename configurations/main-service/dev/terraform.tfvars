@@ -24,3 +24,4 @@ private_subnet_names =  [
 private_security_group_names = ["dev-main-service-private-sg"]
 public_security_group_names = ["dev-main-service-public-sg"]
 
+sshgw_count = 1

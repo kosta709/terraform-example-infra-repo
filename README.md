@@ -14,30 +14,42 @@ So running `terraform apply ` for all the infrastracture after adding one string
 * Operations for maintaining security assets with terraform should be clear and simple - operator needs to change values only and apply the changes by commit/push assuming that CI/CD system will run terraform. 
 
 ## This Demo
-* terrafrom code-base for aws auto sclaling group instances behind ELB
+* [./tf](tf) - terraform code-base for vpc and main-service (aws auto sclaling group instances behind ELB) 
 
-* environment related terraform backend definition and tfvars
+* [configurations/vpc/<environment-name>](configurations/vpc/dev) terraform backend definition and tfvars for vpc
+
+* [configurations/main-service/<environment-name>](configurations/main-service/dev) terraform backend definition and tfvars for vpc
+
 
 *Note:* main.tf and vars.tf are symlinks for the appropriative files in main-service-infra/ folder. Such method helps to avoid extra copy/paste for each environment. For additional customization posiibilities see https://www.terraform.io/docs/configuration/override.html 
 
+* [security-team-repo](https://github.com/kosta709/terraform-security-team-repo-example)
+
 ## Run it
 0. Create or reference VPC
+This step is optional, you can reference existing vpc and subnet
 #### create vpc
 ```
-cd configurations/vpc/<env-name>
+cd terraform-infra-team-repo-example/configurations/vpc/<env-name>
 terraform init|plan|apply
 ```
 
-#### reference exiting vpc
-set varibales in `configurations/main-service/<env-name>/`:
-   vpc_tags_selector, public_subnet_names, private_subnet_names 
-
-
 1. Clone https://github.com/kosta709/terraform-security-team-repo-example and create or update security groups
+set varibales in `configurations/main-service/<env-name>/`
 
-2. Run maina-service-infra 
 ```
-cd configurations/main-service/<env-name>
+cd terraform-security-team-repo-example/configurations/main-service/<env-name>
+terraform init|plan|apply
+```
+
+2. Run main-service-infra
+
+set varibales in [configurations/main-service/env-name](configurations/main-service/dev/terraform.tfvars)  : vpc_tags_selector, public_subnet_names, private_subnet_names  
+
+In this example it is already set to created vpc in step 0
+
+```
+cd terraform-infra-team-repo-example/configurations/main-service/<env-name>
 
 terraform init|plan|apply
 ```
