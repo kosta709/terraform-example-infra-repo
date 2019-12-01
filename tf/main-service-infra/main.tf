@@ -81,6 +81,36 @@ resource "aws_security_group" "allow_elb_sg" {
   )
 }
 
+# Create a new load balancer
+resource "aws_elb" "elb" {
+  name               = local.name
+  subnets = data.aws_subnet_ids.public_subnets.ids
+  security_groups = data.aws_security_groups.public_sg.ids
+
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "HTTP:80/"
+    interval            = 10
+  }
+
+  cross_zone_load_balancing   = true
+
+  tags = merge(
+    {"Name" = local.name},
+    local.common_tags
+  )
+}
+
+
 resource "aws_key_pair" "key" {
   key_name   = local.name
   public_key = file(format("%s/%s", path.module, "files/ssh-key.pub"))
@@ -112,6 +142,7 @@ resource "aws_autoscaling_group" "asg" {
 
   #health_check_grace_period = var.health_check_grace_period
   health_check_type         = "EC2"
+  load_balancers = [aws_elb.elb.name]
   
   tag {
     key                 = "Name"
@@ -128,4 +159,8 @@ resource "aws_autoscaling_group" "asg" {
     }
   }
 
+}
+
+output "load_balancer_dns_name" {
+  value = aws_elb.elb.dns_name
 }
